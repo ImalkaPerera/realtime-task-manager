@@ -1,44 +1,76 @@
 # Realtime Collaborative Task Manager
 
-A full-stack web application that enables multiple users to manage tasks collaboratively with real-time updates across all connected clients.
+A full-stack web application designed to manage tasks collaboratively, with planned real-time synchronization across multiple users.
 
-## Overview
+---
 
-This project demonstrates a real-time system where task updates (create, update, delete) are instantly synchronized across users using WebSocket-based communication.
+## 🚀 Overview
 
-- Backend: Spring Boot + PostgreSQL
-- Frontend: React (Vite)
+This project aims to demonstrate how to build a real-time system using Spring Boot, PostgreSQL, and WebSockets, where task updates are reflected instantly across all connected clients.
 
-## Features
+Currently, the backend foundation and database integration are implemented, with real-time features and frontend integration in progress.
 
-- Create, update, delete, and view tasks
-- Real-time synchronization across multiple clients
-- WebSocket-based event broadcasting
-- Persistent storage using PostgreSQL
-- Clean layered architecture (Controller -> Service -> Repository)
+---
 
-## Tech Stack
+## 📊 Project Status
+
+* Backend setup and database connection: ✅ Completed
+* Task entity and repository: ✅ Completed
+* Basic CRUD APIs (GET, POST): ⏳ In Progress
+* Update & Delete APIs: ❌ Not implemented yet
+* WebSocket real-time updates: ❌ Not implemented yet
+* Frontend (React) integration: ❌ Not implemented yet
+
+---
+
+## 🧩 Features (Planned & In Progress)
+
+* Create, update, delete, and view tasks
+* Real-time synchronization across multiple clients (via WebSockets)
+* Persistent storage using PostgreSQL
+* Clean layered backend architecture
+
+---
+
+## 🛠️ Tech Stack
 
 ### Backend
 
-- Java
-- Spring Boot
-- Spring Web (REST APIs)
-- Spring Data JPA
-- Spring WebSocket (STOMP messaging)
+* Java
+* Spring Boot
+* Spring Web (REST APIs)
+* Spring Data JPA
+* Spring WebSocket (planned)
 
 ### Database
 
-- PostgreSQL
+* PostgreSQL (Local or Neon Cloud)
 
-### Frontend
+### Frontend (Planned)
 
-- React
-- Axios
-- STOMP.js
-- Vite
+* React
+* Axios
+* STOMP.js
+* Vite
 
-## Repository Structure
+---
+
+## 🧱 Architecture Overview
+
+The backend follows a layered architecture:
+
+Client → Controller → Service → Repository → Database
+
+### Responsibilities:
+
+* **Controller**: Handles HTTP requests and responses
+* **Service**: Contains business logic
+* **Repository**: Manages database operations using JPA
+* **Database**: Stores persistent task data
+
+---
+
+## 📁 Repository Structure
 
 ```text
 .
@@ -51,13 +83,12 @@ This project demonstrates a real-time system where task updates (create, update,
 │   ├── pom.xml
 │   ├── mvnw
 │   └── mvnw.cmd
-└── frontend/
-    ├── src/
-    ├── public/
-    └── package.json
+└── frontend/ (planned)
 ```
 
-## API Endpoints
+---
+
+## 🔌 API Endpoints
 
 | Method | Endpoint        | Description   |
 | ------ | --------------- | ------------- |
@@ -66,17 +97,49 @@ This project demonstrates a real-time system where task updates (create, update,
 | PUT    | /api/tasks/{id} | Update a task |
 | DELETE | /api/tasks/{id} | Delete a task |
 
-## Real-Time Flow
+---
+
+## 🧪 Example API Usage
+
+### Create Task
+
+POST /api/tasks
+
+```json
+{
+    "title": "Learn Spring Boot",
+    "description": "Build backend APIs",
+    "status": "TODO"
+}
+```
+
+---
+
+### Get All Tasks
+
+GET /api/tasks
+
+Response:
+
+```json
+[]
+```
+
+---
+
+## 🔄 Planned Real-Time Flow
 
 1. Client sends request (REST API)
 2. Backend updates database
 3. Backend broadcasts event via WebSocket
-4. All connected clients receive event
+4. All connected clients receive update
 5. UI updates automatically
 
-## Database Configuration
+---
 
-Update backend/src/main/resources/application.properties with your local PostgreSQL settings:
+## 🗃️ Database Configuration
+
+### Local PostgreSQL
 
 ```properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/task_manager
@@ -87,43 +150,50 @@ spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 ```
 
-## Running the Application
+---
+
+### Neon Cloud Database (Optional)
+
+```properties
+spring.datasource.url=jdbc:postgresql://<your-neon-url>?sslmode=require
+spring.datasource.username=<your-username>
+spring.datasource.password=<your-password>
+```
+
+---
+
+## ▶️ Running the Application
 
 ### Prerequisites
 
-- Java 17+
-- PostgreSQL installed and running
-- Node.js 18+
+* Java 17+
+* PostgreSQL (local or Neon)
+* Node.js 18+
+
+---
 
 ### Backend
-
-1. Create the database:
-
-```sql
-CREATE DATABASE task_manager;
-```
-
-2. Move into the backend folder and run Spring Boot:
 
 ```bash
 cd backend
 ./mvnw spring-boot:run
 ```
 
-On Windows CMD:
+Windows:
 
 ```bat
-cd backend
 mvnw.cmd spring-boot:run
 ```
 
-Backend server runs at:
+Backend runs at:
 
 ```text
 http://localhost:8080
 ```
 
-### Frontend
+---
+
+### Frontend (Planned)
 
 ```bash
 cd frontend
@@ -131,38 +201,44 @@ npm install
 npm run dev
 ```
 
-Frontend dev server runs at:
+---
 
-```text
-http://localhost:5173
-```
+## ⚠️ Known Limitations
 
-## Known Limitations
+* No authentication implemented
+* Real-time updates not implemented yet
+* Conflict resolution not handled
+* No frontend UI currently
 
-- Authentication is not implemented yet
-- Conflict resolution currently follows last-write-wins
-- Offline support is not implemented
+---
 
-## Future Improvements
+## 🚧 Future Improvements
 
-- User authentication and authorization
-- Task filtering and search
-- Notification system
-- Dockerized deployment
-- Pagination and performance optimization
+* Implement WebSocket-based real-time updates
+* Build React frontend interface
+* Add authentication & authorization
+* Add task filtering and search
+* Dockerize application
+* Improve scalability and performance
 
-## Key Learning Areas
+---
 
-- Real-time communication with WebSockets
-- State synchronization across clients
-- Backend architecture with Spring Boot
-- Database integration with JPA
+## 🧠 Key Learning Areas
 
-## Author
+* Spring Boot backend architecture
+* REST API design
+* Database integration with JPA
+* Preparing for real-time systems using WebSockets
 
-- Your Name
-- GitHub: https://github.com/yourusername
+---
 
-## License
+## 👤 Author
 
-This project is currently intended for educational purposes.
+* Senesh
+* GitHub: https://github.com/ImalkaPerera
+
+---
+
+## 📄 License
+
+This project is intended for educational purposes.
