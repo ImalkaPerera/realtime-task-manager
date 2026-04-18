@@ -22,4 +22,19 @@ public class TaskService {
     public Task createTask(Task task) {
         return repo.save(task);
     }
+
+    public Task updateTask(Long id, Task updated) {
+        Task task = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Task not found"));
+
+        task.setTitle(updated.getTitle());
+        task.setDescription(updated.getDescription());
+        task.setStatus(updated.getStatus());
+
+        return repo.save(task);
+    }
+
+    public void deleteTask(Long id) {
+        repo.deleteById(id);
+    }
 }
