@@ -2,6 +2,7 @@ package com.senesh.taskmanager.service;
 
 import com.senesh.taskmanager.model.Task;
 import com.senesh.taskmanager.repository.TaskRepository;
+import com.senesh.taskmanager.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,9 +24,14 @@ public class TaskService {
         return repo.save(task);
     }
 
+    public Task getTaskById(Long id) {
+        return repo.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Task not found with id: " + id));
+    }
+
     public Task updateTask(Long id, Task updated) {
-        Task task = repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Task not found"));
+        Task task = getTaskById(id);
 
         task.setTitle(updated.getTitle());
         task.setDescription(updated.getDescription());
@@ -34,11 +40,9 @@ public class TaskService {
         return repo.save(task);
     }
 
-    public void deleteTask(Long id) {
-        repo.deleteById(id);
-    }
-    public Task getTaskById(Long id) {
-        return repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Task not found"));
+    public Task deleteTask(Long id) {
+        Task task = getTaskById(id);
+        repo.delete(task);
+        return task;
     }
 }
