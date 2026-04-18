@@ -37,4 +37,8 @@ public class TaskService {
     public void deleteTask(Long id) {
         repo.deleteById(id);
     }
+    public Task getTaskById(Long id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Task not found"));
+    }
 }
