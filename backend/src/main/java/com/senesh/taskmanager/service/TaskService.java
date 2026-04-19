@@ -4,6 +4,7 @@ import com.senesh.taskmanager.model.Task;
 import com.senesh.taskmanager.repository.TaskRepository;
 import com.senesh.taskmanager.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import java.util.List;
 
@@ -12,8 +13,11 @@ public class TaskService {
 
     private final TaskRepository repo;
 
-    public TaskService(TaskRepository repo) {
+    private final SimpMessagingTemplate messagingTemplate;
+
+    public TaskService(TaskRepository repo,SimpMessagingTemplate messagingTemplate) {
         this.repo = repo;
+        this.messagingTemplate = messagingTemplate;
     }
 
     public List<Task> getAllTasks() {
@@ -21,7 +25,11 @@ public class TaskService {
     }
 
     public Task createTask(Task task) {
-        return repo.save(task);
+        Task saved = repo.save(task);
+
+        messagingTemplate.convertAndSend("/topic/tasks", saved);
+
+        return saved;
     }
 
     public Task getTaskById(Long id) {
@@ -37,12 +45,19 @@ public class TaskService {
         task.setDescription(updated.getDescription());
         task.setStatus(updated.getStatus());
 
-        return repo.save(task);
+        Task saved = repo.save(task);
+
+        messagingTemplate.convertAndSend("/topic/tasks", saved);
+
+        return saved;
     }
 
     public Task deleteTask(Long id) {
         Task task = getTaskById(id);
         repo.delete(task);
+
+        messagingTemplate.convertAndSend("/topic/tasks", task);
+
         return task;
     }
 }
