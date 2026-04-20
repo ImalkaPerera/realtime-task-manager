@@ -27,7 +27,7 @@ public class TaskService {
     public Task createTask(Task task) {
         Task saved = repo.save(task);
 
-        messagingTemplate.convertAndSend("/topic/tasks", saved);
+        messagingTemplate.convertAndSend("/topic/tasks", java.util.Map.of("type", "CREATED", "task", saved));
 
         return saved;
     }
@@ -47,7 +47,7 @@ public class TaskService {
 
         Task saved = repo.save(task);
 
-        messagingTemplate.convertAndSend("/topic/tasks", saved);
+        messagingTemplate.convertAndSend("/topic/tasks", java.util.Map.of("type", "UPDATED", "task", saved));
 
         return saved;
     }
@@ -56,7 +56,7 @@ public class TaskService {
         Task task = getTaskById(id);
         repo.delete(task);
 
-        messagingTemplate.convertAndSend("/topic/tasks", task);
+        messagingTemplate.convertAndSend("/topic/tasks", java.util.Map.of("type", "DELETED", "task", task));
 
         return task;
     }
